@@ -1,0 +1,150 @@
+{
+  "title": "vLLM Serverless Worker",
+  "description": "OpenAI-compatible serverless API powered by vLLM AsyncEngine. Supports public HuggingFace models, gated/private models, and locally fine-tuned custom models.",
+  "type": "serverless",
+  "category": "language",
+  "iconUrl": "https://raw.githubusercontent.com/vllm-project/vllm/main/docs/source/assets/logos/vllm-logo-text-light.png",
+  "config": {
+    "runsOn": "GPU",
+    "containerDiskInGb": 50,
+    "gpuCount": 1,
+    "env": [
+      {
+        "key": "MODEL_TYPE",
+        "input": {
+          "name": "Model Type",
+          "type": "string",
+          "description": "Source of the model to load",
+          "options": [
+            { "label": "Public (HuggingFace)", "value": "public" },
+            { "label": "Gated (HF Token required)", "value": "gated" },
+            { "label": "Custom (local path on pod volume)", "value": "custom" }
+          ],
+          "default": "public",
+          "required": true
+        }
+      },
+      {
+        "key": "MODEL_NAME",
+        "input": {
+          "type": "huggingface",
+          "name": "Model Name",
+          "description": "HuggingFace repo ID (e.g. meta-llama/Llama-3-8B-Instruct) or absolute local path for custom models",
+          "required": true
+        }
+      },
+      {
+        "key": "HF_TOKEN",
+        "input": {
+          "name": "HuggingFace Token",
+          "type": "string",
+          "description": "Required when Model Type is 'gated'. Your HuggingFace access token.",
+          "required": false
+        }
+      },
+      {
+        "key": "TENSOR_PARALLEL_SIZE",
+        "input": {
+          "name": "Tensor Parallel Size",
+          "type": "number",
+          "description": "Number of GPUs for tensor parallelism. Must match GPU count.",
+          "default": 1,
+          "min": 1,
+          "max": 8,
+          "required": false
+        }
+      },
+      {
+        "key": "MAX_MODEL_LEN",
+        "input": {
+          "name": "Max Model Length",
+          "type": "number",
+          "description": "Maximum sequence length (context window). Lower values reduce VRAM usage.",
+          "default": 4096,
+          "min": 512,
+          "max": 131072,
+          "required": false
+        }
+      },
+      {
+        "key": "GPU_MEMORY_UTILIZATION",
+        "input": {
+          "name": "GPU Memory Utilization",
+          "type": "string",
+          "description": "Fraction of GPU VRAM to allocate for the model (0.0 – 1.0).",
+          "options": [
+            { "label": "70%", "value": "0.70" },
+            { "label": "80%", "value": "0.80" },
+            { "label": "90% (default)", "value": "0.90" },
+            { "label": "95%", "value": "0.95" }
+          ],
+          "default": "0.90",
+          "required": false
+        }
+      },
+      {
+        "key": "DTYPE",
+        "input": {
+          "name": "Data Type",
+          "type": "string",
+          "description": "Numerical precision for model weights.",
+          "options": [
+            { "label": "Auto (recommended)", "value": "auto" },
+            { "label": "float16", "value": "float16" },
+            { "label": "bfloat16", "value": "bfloat16" },
+            { "label": "float32", "value": "float32" }
+          ],
+          "default": "auto",
+          "required": false
+        }
+      },
+      {
+        "key": "QUANTIZATION",
+        "input": {
+          "name": "Quantization",
+          "type": "string",
+          "description": "Optional quantization method to reduce VRAM usage.",
+          "options": [
+            { "label": "None", "value": "" },
+            { "label": "AWQ", "value": "awq" },
+            { "label": "GPTQ", "value": "gptq" },
+            { "label": "SqueezeLLM", "value": "squeezellm" }
+          ],
+          "default": "",
+          "required": false
+        }
+      }
+    ],
+    "presets": [
+      {
+        "name": "Small — OPT 125M (test / demo)",
+        "env": [
+          { "key": "MODEL_TYPE", "value": "public" },
+          { "key": "MODEL_NAME", "value": "facebook/opt-125m" },
+          { "key": "MAX_MODEL_LEN", "value": "2048" },
+          { "key": "TENSOR_PARALLEL_SIZE", "value": "1" }
+        ]
+      },
+      {
+        "name": "Medium — Llama 3 8B Instruct",
+        "env": [
+          { "key": "MODEL_TYPE", "value": "gated" },
+          { "key": "MODEL_NAME", "value": "meta-llama/Meta-Llama-3-8B-Instruct" },
+          { "key": "MAX_MODEL_LEN", "value": "8192" },
+          { "key": "TENSOR_PARALLEL_SIZE", "value": "1" },
+          { "key": "DTYPE", "value": "bfloat16" }
+        ]
+      },
+      {
+        "name": "Large — Llama 3 70B Instruct (4× GPU)",
+        "env": [
+          { "key": "MODEL_TYPE", "value": "gated" },
+          { "key": "MODEL_NAME", "value": "meta-llama/Meta-Llama-3-70B-Instruct" },
+          { "key": "MAX_MODEL_LEN", "value": "8192" },
+          { "key": "TENSOR_PARALLEL_SIZE", "value": "4" },
+          { "key": "DTYPE", "value": "bfloat16" }
+        ]
+      }
+    ]
+  }
+}
