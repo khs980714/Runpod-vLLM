@@ -5,7 +5,12 @@
       "Bash(mv vllm-runpod-serverless/.github .)",
       "Bash(mv vllm-runpod-serverless/docker .)",
       "Bash(mv vllm-runpod-serverless/README.md .)",
-      "Bash(mv vllm-runpod-serverless/requirements.txt .)"
+      "Bash(mv vllm-runpod-serverless/requirements.txt .)",
+      "Bash(gh auth:*)",
+      "WebFetch(domain:console.runpod.io)",
+      "WebFetch(domain:docs.runpod.io)",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d.get\\('html_url'\\) or d.get\\('message','error'\\)\\)\")",
+      "Bash(gh release:*)"
     ]
   }
 }

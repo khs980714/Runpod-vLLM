@@ -12,7 +12,7 @@ echo "Building image: ${FULL_IMAGE}"
 echo "Context:        ${PROJECT_ROOT}"
 
 docker build \
-  --file "${PROJECT_ROOT}/docker/Dockerfile" \
+  --file "${PROJECT_ROOT}/Dockerfile" \
   --tag  "${FULL_IMAGE}" \
   "${PROJECT_ROOT}"
 

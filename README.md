@@ -1,5 +1,7 @@
 # vllm-runpod-serverless
 
+[![Runpod](https://api.runpod.io/badge/khs980714/Runpod-vLLM)](https://console.runpod.io/hub/khs980714/Runpod-vLLM)
+
 RunPod Serverless worker that exposes a **vLLM AsyncEngine** as an OpenAI-compatible API.
 
 ## Features
