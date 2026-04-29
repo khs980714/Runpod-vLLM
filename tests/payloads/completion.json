@@ -1,0 +1,8 @@
+{
+  "endpoint": "completions",
+  "prompt": "The quick brown fox",
+  "temperature": 0.8,
+  "max_tokens": 128,
+  "top_p": 1.0,
+  "stop": ["\n"]
+}

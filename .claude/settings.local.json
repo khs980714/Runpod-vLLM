@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mv vllm-runpod-serverless/.env.example .)",
+      "Bash(mv vllm-runpod-serverless/.github .)",
+      "Bash(mv vllm-runpod-serverless/docker .)",
+      "Bash(mv vllm-runpod-serverless/README.md .)",
+      "Bash(mv vllm-runpod-serverless/requirements.txt .)"
+    ]
+  }
+}
